@@ -1,0 +1,83 @@
+﻿
+
+<div class="NavBar">
+    <div><a href="/"><img src="/images/baitLogoWhite.png" style="width: 30px;"/></a></div>
+    <div/>
+    <div class="centerVH">
+        <i @onclick="() => burgerMenuClicked = !burgerMenuClicked"
+           class="@(!burgerMenuClicked ? "fa-solid fa-bars icon fa-xl" : "fa-solid fa-xmark icon fa-2xl")">
+        </i>
+    </div>
+
+    <div/>
+    <div style="@(burgerMenuClicked ? "margin-top: 0;" : "top: -100vh;")" class="burgerMenuOpen centerVH">
+            <img src="/images/baitLogoWhite.png" style="width: 110px;" />
+            <ul>
+                <li><a class="icon" href="/videosHome">Videos</a></li>
+                <li><a class="icon" href="/events">Events</a></li>
+                <li><a class="icon" href="/articles">Articles</a></li>
+                <li><a class="icon" href="/store">Store</a></li>
+                <li><a class="icon" href="/gallery">Gallery</a></li>
+            </ul>
+            <div class="burgerSocials">
+            <a target="_blank" href="https://www.instagram.com/officialbaitmedia/"><i class="fa-brands fa-instagram fa-xl icon"></i></a>
+            <a><i class="fa-brands fa-youtube fa-xl icon"></i></a>
+            </div>
+        </div>
+    <div/>
+</div>
+
+<!-- Nav/Burger specific CSS-->
+
+<style>
+
+    .NavBar {
+        background-color: rgba(17,17,17, 0.7);
+        width: 100vw;
+        position: fixed;
+        display: grid;
+        grid-template-columns: 1fr 8fr 1fr;
+        text-align: center;
+        padding: 1em 1.5em;
+    }
+    
+    .burgerMenuOpen {
+        height: 100vh;
+        margin-top: -100vh;
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 8em;
+        transition: 0.7s;
+    }
+    
+    .burgerMenuOpen ul {
+        list-style-type: none;
+        padding: 1.5em 0;
+    }
+    
+    .burgerMenuOpen ul li {
+        margin: 0.75em 0;
+    }
+    
+    .burgerMenuOpen ul li a {
+        text-decoration: none;
+        font-size: 1.3em;
+        font-weight: 700;
+    }
+    
+    .burgerSocials {
+        display: flex;
+    }
+    
+    .burgerSocials a i {
+        margin: 0 0.5em;
+    }
+
+</style>
+
+
+<!-- Nav/Burger Code-->
+
+@code {
+    bool burgerMenuClicked = false;
+}
