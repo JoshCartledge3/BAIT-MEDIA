@@ -7,6 +7,7 @@
     <RootNamespace>BAIT_MEDIA</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'BAIT-MEDIA' " />
   <ItemGroup>
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
