@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\css\fonts\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
