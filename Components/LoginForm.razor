@@ -1,0 +1,72 @@
+﻿@using BAIT_MEDIA_DataAccessLibrary.Models
+@using BAIT_MEDIA_DataAccessLibrary
+@using Microsoft.AspNetCore.Identity
+
+@inject IUserData _db
+@inject NavigationManager _navMan
+
+<PageTitle>Login</PageTitle>
+
+<div class="registerCard centerVH" style="@(!invalidFieldShadow ? "box-shadow: inset 0px 0px 15px 10px rgba(0,0,0,0.75), 0px 0px 35px 10px rgba(40,40,40,0.75);" : " box-shadow: inset 0px 0px 15px 10px rgba(0,0,0,0.75), 0px 0px 35px 10px rgba(255,31,42,0.75);")">
+
+    <input style="@(!emailField ? "border-color: var(--baitRed);" : " border-color: gray;")" required placeholder="@@ Email" type="email" @bind="_user.EmailAddress" />
+    <input style="@(!passwordField ? "border-color: var(--baitRed);" : " border-color: gray;")" required placeholder="Password" type="password" @bind="password" />
+
+    <button>Log In</button>
+</div>
+
+
+
+
+
+
+
+
+
+
+@code {
+
+    public PasswordHasher<UserModel> passwordHasher = new();
+
+    UserModel _user = new();
+
+
+    string password = "";
+    string confirmPassword = "";
+
+    bool emailField = true;
+    bool passwordField = true;
+
+    bool invalidFields = true;
+    bool invalidFieldShadow = false;
+
+}
+
+<style>
+
+    .registerCard {
+        width: 350px;
+        border-radius: 40px;
+        display: flex;
+        flex-direction: column;
+        padding: 2.5em 0;
+        box-shadow: inset 0px 0px 15px 10px rgba(0,0,0,0.75), 0px 0px 35px 10px rgba(40,40,40,0.75);
+        transition: ease-in-out 0.15s;
+    }
+
+    button {
+        background: transparent;
+        padding: 0.25em 0.5em;
+        color: #FFF;
+        border-radius: 40px;
+        border: 2px solid gray;
+        margin: 1em 0;
+        transition: ease-in-out 0.15s;
+    }
+
+    button:hover {
+        border-color: lightgreen;
+        color: lightgreen;
+    }
+
+</style>

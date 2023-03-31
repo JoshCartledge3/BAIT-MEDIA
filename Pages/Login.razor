@@ -1,0 +1,59 @@
+﻿@page "/Login"
+
+@using BAIT_MEDIA_DataAccessLibrary
+@using BAIT_MEDIA_DataAccessLibrary.Models
+@using BAIT_MEDIA.Components
+
+@inject IUserData _db
+
+<PageTitle>Login</PageTitle>
+
+<div class="loginRegister-selector">
+    <div><a @onclick="() => loginSelected = true">Log In</a></div>
+    <div><a @onclick="() => loginSelected = false">Register</a></div>
+</div>
+<div class="loginRegister-container">
+    <div>
+        @if(loginSelected)
+        {
+            <LoginForm/>
+        }
+        else
+        {
+            <RegisterForm/>
+        }
+    </div>
+</div>
+
+
+@code {
+
+    bool loginSelected = true;
+
+}
+
+<style>
+
+    .loginRegister-selector {
+        display: flex;
+        height: 20vh;
+        justify-content: center;
+    }
+
+    .loginRegister-selector div {
+        margin: 1em 1.5em;
+        font-size: 1.5em;
+        display: inline-block;
+        align-self: flex-end;
+    }
+
+    .loginRegister-container {
+        height: 66.5vh;
+        display: flex;
+        justify-content: center;
+        margin: 1em;
+    }
+
+
+</style>
+

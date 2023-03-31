@@ -1,16 +1,19 @@
 ﻿@using BAIT_MEDIA_DataAccessLibrary.Models
 @using BAIT_MEDIA_DataAccessLibrary
-@inject IUserData _ud
+@using Microsoft.AspNetCore.Identity
+
+@inject IUserData _db
+@inject NavigationManager _navMan
 
 <PageTitle>Login</PageTitle>
 
-<div class="registerCard centerVH">
+<div class="registerCard centerVH" style="@(!invalidFieldShadow ? "box-shadow: inset 0px 0px 15px 10px rgba(0,0,0,0.75), 0px 0px 35px 10px rgba(40,40,40,0.75);" : " box-shadow: inset 0px 0px 15px 10px rgba(0,0,0,0.75), 0px 0px 35px 10px rgba(255,31,42,0.75);")">
     <input style="@(!forenameField ? "border-color: var(--baitRed);" : " border-color: gray;")" required placeholder="First Name" @bind="_user.Forename" />
     <input style="@(!surnameField ? "border-color: var(--baitRed);" : " border-color: gray;")" required placeholder="Last Name" @bind="_user.Surname" />
     <input style="@(!emailField ? "border-color: var(--baitRed);" : " border-color: gray;")" required placeholder="@@ Email" type="email" @bind="_user.EmailAddress" />
     <input style="@(!passwordField ? "border-color: var(--baitRed);" : " border-color: gray;")" required placeholder="Password" type="password" @bind="password" />
     <input style="@(!confirmPasswordField ? "border-color: var(--baitRed);" : " border-color: gray;")" required placeholder="Confirm Password" type="password" @bind="confirmPassword" />
-    <button href="/home" @onclick="(() => ParseNewUser())">Register</button>
+    <button @onclick="(() => ParseNewUser())">Register</button>
 </div>
 
 
@@ -24,7 +27,11 @@
 
 @code {
 
+    public PasswordHasher<UserModel> passwordHasher = new();
+
     UserModel _user = new();
+
+
     string password = "";
     string confirmPassword = "";
 
@@ -33,18 +40,17 @@
     bool emailField = true;
     bool passwordField = true;
     bool confirmPasswordField = true;
-
     bool invalidFields = true;
+    bool invalidFieldShadow = false;
 
-    private void ParseNewUser()
+    private async Task ParseNewUser()
     {
-        var allUsers = _ud.GetAllUsers();
-
         // Parse all fields
         forenameField = string.IsNullOrWhiteSpace(_user.Forename) ? false : true;
         surnameField = string.IsNullOrWhiteSpace(_user.Surname) ? false : true;
         emailField = string.IsNullOrWhiteSpace(_user.EmailAddress) ? false : true;
         passwordField = string.IsNullOrWhiteSpace(password) ? false: true;
+        confirmPasswordField = string.IsNullOrWhiteSpace(confirmPassword) ? false : true;
 
         if (password != confirmPassword)
         {
@@ -56,24 +62,29 @@
             confirmPasswordField = true;
         }
 
+        // Check for invalids
         invalidFields = !(forenameField && surnameField && emailField && passwordField && confirmPasswordField);
+
+        invalidFieldShadow = invalidFields;
 
         if(!invalidFields)
         {
+            // Create non-input fields
             _user.UserID = Guid.NewGuid().ToString();
-            _user.Password = password;
-            _user.UserRole = 1;
-            _ud.InsertUser(_user);
+            _user.Password = passwordHasher.HashPassword(_user, password);
+            _user.UserRole = 0;
+
+            // Add user to database
+            await _db.InsertUser(_user);
+            _navMan.NavigateTo("/");
         }
     }
-
 
 }
 
 <style>
 
     .registerCard {
-        margin-top: 3em;
         width: 350px;
         border-radius: 40px;
         display: flex;
