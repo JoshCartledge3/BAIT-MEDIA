@@ -12,5 +12,8 @@
     <Folder Include="wwwroot\css\fonts\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BAIT-MEDIA-DataAccessLibrary\BAIT-MEDIA-DataAccessLibrary.csproj" />
+  </ItemGroup>
 
 </Project>

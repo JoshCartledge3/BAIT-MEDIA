@@ -1,0 +1,101 @@
+﻿@using BAIT_MEDIA_DataAccessLibrary.Models
+@using BAIT_MEDIA_DataAccessLibrary
+@inject IUserData _ud
+
+<PageTitle>Login</PageTitle>
+
+<div class="registerCard centerVH">
+    <input style="@(!forenameField ? "border-color: var(--baitRed);" : " border-color: gray;")" required placeholder="First Name" @bind="_user.Forename" />
+    <input style="@(!surnameField ? "border-color: var(--baitRed);" : " border-color: gray;")" required placeholder="Last Name" @bind="_user.Surname" />
+    <input style="@(!emailField ? "border-color: var(--baitRed);" : " border-color: gray;")" required placeholder="@@ Email" type="email" @bind="_user.EmailAddress" />
+    <input style="@(!passwordField ? "border-color: var(--baitRed);" : " border-color: gray;")" required placeholder="Password" type="password" @bind="password" />
+    <input style="@(!confirmPasswordField ? "border-color: var(--baitRed);" : " border-color: gray;")" required placeholder="Confirm Password" type="password" @bind="confirmPassword" />
+    <button href="/home" @onclick="(() => ParseNewUser())">Register</button>
+</div>
+
+
+
+
+
+
+
+
+
+
+@code {
+
+    UserModel _user = new();
+    string password = "";
+    string confirmPassword = "";
+
+    bool forenameField = true;
+    bool surnameField = true;
+    bool emailField = true;
+    bool passwordField = true;
+    bool confirmPasswordField = true;
+
+    bool invalidFields = true;
+
+    private void ParseNewUser()
+    {
+        var allUsers = _ud.GetAllUsers();
+
+        // Parse all fields
+        forenameField = string.IsNullOrWhiteSpace(_user.Forename) ? false : true;
+        surnameField = string.IsNullOrWhiteSpace(_user.Surname) ? false : true;
+        emailField = string.IsNullOrWhiteSpace(_user.EmailAddress) ? false : true;
+        passwordField = string.IsNullOrWhiteSpace(password) ? false: true;
+
+        if (password != confirmPassword)
+        {
+            passwordField = false;
+            confirmPasswordField = false;
+        }
+        else
+        {
+            confirmPasswordField = true;
+        }
+
+        invalidFields = !(forenameField && surnameField && emailField && passwordField && confirmPasswordField);
+
+        if(!invalidFields)
+        {
+            _user.UserID = Guid.NewGuid().ToString();
+            _user.Password = password;
+            _user.UserRole = 1;
+            _ud.InsertUser(_user);
+        }
+    }
+
+
+}
+
+<style>
+
+    .registerCard {
+        margin-top: 3em;
+        width: 350px;
+        border-radius: 40px;
+        display: flex;
+        flex-direction: column;
+        padding: 2.5em 0;
+        box-shadow: inset 0px 0px 15px 10px rgba(0,0,0,0.75), 0px 0px 35px 10px rgba(40,40,40,0.75);
+        transition: ease-in-out 0.15s;
+    }
+
+    button {
+        background: transparent;
+        padding: 0.25em 0.5em;
+        color: #FFF;
+        border-radius: 40px;
+        border: 2px solid gray;
+        margin: 1em 0;
+        transition: ease-in-out 0.15s;
+    }
+
+    button:hover {
+        border-color: lightgreen;
+        color: lightgreen;
+    }
+
+</style>
