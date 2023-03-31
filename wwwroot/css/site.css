@@ -99,3 +99,18 @@ html, body {
     color: var(--baitRed);
 }
 
+input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid gray;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    outline: none;
+    margin: 1em 0;
+    padding: 1% 2%;
+    color: #FFF;
+    transition: ease-in-out 0.35s;
+    width: 65%;
+}
+
+
